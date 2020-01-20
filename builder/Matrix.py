@@ -65,5 +65,6 @@ class Matrix:
 
         plt.tight_layout()
         plt.savefig('{track_dir}/matrix.png'.format(track_dir=track_dir))
+        plt.close()
 
         return A, Rf

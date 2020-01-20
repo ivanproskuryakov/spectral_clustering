@@ -53,5 +53,6 @@ class Laplacian:
 
         plt.tight_layout()
         plt.savefig('{track_dir}/laplacian.png'.format(track_dir=track_dir))
+        plt.close()
 
         return seg_ids, colors

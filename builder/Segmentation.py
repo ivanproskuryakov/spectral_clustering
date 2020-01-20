@@ -53,3 +53,4 @@ class Segmentation:
                                            alpha=0.50))
         plt.tight_layout()
         plt.savefig('{track_dir}/segmentation.png'.format(track_dir=track_dir))
+        plt.close()

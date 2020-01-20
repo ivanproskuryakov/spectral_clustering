@@ -21,11 +21,13 @@ scanner = TracksScanner(album_dir=ALBUM_DIR)
 scanner.scan_tracks()
 scanner.make_output_dirs()
 track = scanner.tracks[0]
-y, sr = librosa.load(track['file'])
 
 # Build
-c = spectrogram.build(y, sr, track_dir=track['dir'])
-C_sync, beats, beat_times = spectrogramSync.build(y, sr, c, track_dir=track['dir'])
-A, Rf = matrix.build(y, sr, C_sync, beats, beat_times, track_dir=track['dir'])
-seg_ids, colors = laplacian.build(A, Rf, beat_times, track_dir=track['dir'])
-segmentation.build(c, sr, seg_ids, beats, colors, track_dir=track['dir'])
+for track in scanner.tracks:
+    y, sr = librosa.load(track['file'])
+
+    c = spectrogram.build(y, sr, track_dir=track['dir'])
+    C_sync, beats, beat_times = spectrogramSync.build(y, sr, c, track_dir=track['dir'])
+    A, Rf = matrix.build(y, sr, C_sync, beats, beat_times, track_dir=track['dir'])
+    seg_ids, colors = laplacian.build(A, Rf, beat_times, track_dir=track['dir'])
+    segmentation.build(c, sr, seg_ids, beats, colors, track_dir=track['dir'])

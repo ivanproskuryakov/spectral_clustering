@@ -26,5 +26,6 @@ class Spectrogram:
 
         plt.tight_layout()
         plt.savefig('{track_dir}/spectrogram.png'.format(track_dir=track_dir))
+        plt.close()
 
         return c

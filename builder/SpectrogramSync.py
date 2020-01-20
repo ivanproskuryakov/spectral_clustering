@@ -26,5 +26,6 @@ class SpectrogramSync:
                                  x_coords=beat_times)
         plt.tight_layout()
         plt.savefig('{track_dir}/spectrogram_sync.png'.format(track_dir=track_dir))
+        plt.close()
 
         return C_sync, beats, beat_times
