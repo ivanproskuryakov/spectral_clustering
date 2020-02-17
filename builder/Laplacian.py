@@ -35,12 +35,9 @@ class Laplacian:
         plt.figure(figsize=(12, 4))
         colors = plt.get_cmap('Paired', k)
 
-        ax = plt.subplot(1, 3, 2)
+        plt.subplot(1, 3, 2)
         librosa.display.specshow(Rf, cmap='inferno_r')
         plt.title('Recurrence matrix')
-
-        ax.yaxis.set_major_locator(MultipleLocator(30))
-        ax.yaxis.set_minor_locator(AutoMinorLocator(6))
 
         ax = plt.subplot(1, 3, 1)
         librosa.display.specshow(X,
@@ -54,7 +51,7 @@ class Laplacian:
         plt.subplot(1, 3, 3)
         librosa.display.specshow(np.atleast_2d(seg_ids).T, cmap=colors)
         plt.title('Estimated segments')
-        plt.colorbar(ticks=range(k))
+        # plt.colorbar(ticks=range(k))
 
         plt.tight_layout()
         plt.savefig('{track_dir}/laplacian_{k}.png'.format(track_dir=track_dir, k=k))

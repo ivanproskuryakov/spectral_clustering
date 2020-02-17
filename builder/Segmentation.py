@@ -13,7 +13,7 @@ class Segmentation:
     def build(self, k, C, sr, seg_ids, beats, colors, track_dir: str):
         ###############################################################
         # Locate segment boundaries from the label sequence
-        bound_beats = 1 + np.flatnonzero(seg_ids[:-1] != seg_ids[1:])
+        bound_beats = np.flatnonzero(seg_ids[:-1] != seg_ids[1:])
 
         # Count beat 0 as a boundary
         bound_beats = librosa.util.fix_frames(bound_beats, x_min=0)
