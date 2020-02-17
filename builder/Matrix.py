@@ -2,6 +2,7 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy
+from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 
 class Matrix:
@@ -50,10 +51,12 @@ class Matrix:
         # Plot the resulting graphs (Figure 1, left and center)
         plt.figure(figsize=(8, 4))
 
-        plt.subplot(1, 3, 1)
-        librosa.display.specshow(Rf, cmap='inferno_r', y_axis='time',
-                                 y_coords=beat_times)
+        ax = plt.subplot(1, 3, 1)
+        librosa.display.specshow(data=Rf, cmap='inferno_r', y_axis='time', y_coords=beat_times)
         plt.title('Recurrence similarity')
+
+        ax.yaxis.set_major_locator(MultipleLocator(30))
+        ax.yaxis.set_minor_locator(AutoMinorLocator(6))
 
         plt.subplot(1, 3, 2)
         librosa.display.specshow(R_path, cmap='inferno_r')
@@ -64,6 +67,7 @@ class Matrix:
         plt.title('Combined graph')
 
         plt.tight_layout()
+
         plt.savefig('{track_dir}/matrix.png'.format(track_dir=track_dir))
         plt.close()
 

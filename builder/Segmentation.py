@@ -2,6 +2,7 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 from config import BINS_PER_OCTAVE
 
@@ -9,7 +10,7 @@ from config import BINS_PER_OCTAVE
 ##############################################
 # Next, we'll compute and plot a log-power CQT
 class Segmentation:
-    def build(self, C, sr, seg_ids, beats, colors, track_dir: str):
+    def build(self, k, C, sr, seg_ids, beats, colors, track_dir: str):
         ###############################################################
         # Locate segment boundaries from the label sequence
         bound_beats = 1 + np.flatnonzero(seg_ids[:-1] != seg_ids[1:])
@@ -51,6 +52,10 @@ class Segmentation:
                                            freqs[-1],
                                            facecolor=colors(label),
                                            alpha=0.50))
+
+        ax.xaxis.set_major_locator(MultipleLocator(30))
+        ax.xaxis.set_minor_locator(AutoMinorLocator(6))
+
         plt.tight_layout()
-        plt.savefig('{track_dir}/segmentation.png'.format(track_dir=track_dir))
+        plt.savefig('{track_dir}/segmentation_{k}.png'.format(track_dir=track_dir, k=k))
         plt.close()
