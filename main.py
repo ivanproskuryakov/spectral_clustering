@@ -22,15 +22,16 @@ scanner.scan_tracks()
 scanner.make_output_dirs()
 track = scanner.tracks[1]
 clusters = [4, 8, 12, 16, 20]
+k = 8
 
 # Build
-for track in scanner.tracks:
-    y, sr = librosa.load(track['file'])
+# for track in scanner.tracks:
+y, sr = librosa.load(track['file'])
 
-    C = spectrogram.build(y, sr)
-    C_sync, beats, beat_times = spectrogramSync.build(y, sr, C, track_dir=track['dir'])
-    A, Rf = matrix.build(y, sr, C_sync, beats, beat_times, track_dir=track['dir'])
+C = spectrogram.build(y, sr)
+C_sync, beats, beat_times = spectrogramSync.build(y, sr, C)
+A, Rf = matrix.build(y, sr, C_sync, beats)
 
-    for k in clusters:
-        seg_ids, colors = laplacian.build(k, A, Rf, beat_times, track_dir=track['dir'])
-        segmentation.build(k, C, sr, seg_ids, beats, colors, track_dir=track['dir'])
+# for k in clusters:
+seg_ids, colors = laplacian.build(k, A, Rf, beat_times, track_dir=track['dir'])
+# segmentation.build(k, C, sr, seg_ids, beats, colors, track_dir=track['dir'])

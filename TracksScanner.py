@@ -9,7 +9,7 @@ class TracksScanner:
     def scan_tracks(self):
         for f in os.listdir(self.album_dir):
             if f.endswith(".mp3"):
-                t = f.strip('.mp3')
+                t = f.rstrip("mp3").rstrip(".")
                 track = {
                     'dir': '{album_dir}/{t}'.format(album_dir=self.album_dir, t=t),
                     'file': '{album_dir}/{t}.mp3'.format(album_dir=self.album_dir, t=t),

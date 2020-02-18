@@ -1,12 +1,10 @@
 import librosa.display
 import numpy as np
-import matplotlib.pyplot as plt
 import scipy
-from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 
 class Matrix:
-    def build(self, y, sr, c_sync, beats, beat_times, track_dir: str):
+    def build(self, y, sr, c_sync, beats):
         #####################################################################
         # Let's build a weighted recurrence matrix using beat-synchronous CQT
         # (Equation 1)
@@ -46,29 +44,5 @@ class Matrix:
         mu = deg_path.dot(deg_path + deg_rec) / np.sum((deg_path + deg_rec) ** 2)
 
         A = mu * Rf + (1 - mu) * R_path
-
-        ###########################################################
-        # Plot the resulting graphs (Figure 1, left and center)
-        plt.figure(figsize=(8, 4))
-
-        ax = plt.subplot(1, 3, 1)
-        librosa.display.specshow(data=Rf, cmap='inferno_r', y_axis='time', y_coords=beat_times)
-        plt.title('Recurrence similarity')
-
-        ax.yaxis.set_major_locator(MultipleLocator(30))
-        ax.yaxis.set_minor_locator(AutoMinorLocator(6))
-
-        plt.subplot(1, 3, 2)
-        librosa.display.specshow(R_path, cmap='inferno_r')
-        plt.title('Path similarity')
-
-        plt.subplot(1, 3, 3)
-        librosa.display.specshow(A, cmap='inferno_r')
-        plt.title('Combined graph')
-
-        plt.tight_layout()
-
-        plt.savefig('{track_dir}/matrix.png'.format(track_dir=track_dir))
-        plt.close()
 
         return A, Rf

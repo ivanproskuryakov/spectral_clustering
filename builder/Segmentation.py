@@ -34,7 +34,7 @@ class Segmentation:
 
         # sphinx_gallery_thumbnail_number = 5
 
-        plt.figure(figsize=(12, 4))
+        plt.figure(figsize=(24, 8))
 
         bound_times = librosa.frames_to_time(bound_frames)
         freqs = librosa.cqt_frequencies(n_bins=C.shape[0],
@@ -53,8 +53,8 @@ class Segmentation:
                                            facecolor=colors(label),
                                            alpha=0.50))
 
-        ax.xaxis.set_major_locator(MultipleLocator(30))
-        ax.xaxis.set_minor_locator(AutoMinorLocator(6))
+        ax.xaxis.set_major_locator(MultipleLocator(20))
+        ax.xaxis.set_minor_locator(AutoMinorLocator(4))
 
         plt.tight_layout()
         plt.savefig('{track_dir}/segmentation_{k}.png'.format(track_dir=track_dir, k=k))

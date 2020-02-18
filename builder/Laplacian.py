@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import scipy
 import sklearn.cluster
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
-
+from matplotlib import gridspec
 
 class Laplacian:
     def build(self, k, A, Rf, beat_times, track_dir: str):
@@ -31,30 +31,25 @@ class Laplacian:
 
         seg_ids = KM.fit_predict(X)
 
-        # and plot the results
-        plt.figure(figsize=(12, 4))
-        colors = plt.get_cmap('Paired', k)
+        # Detailed results
+        plt.figure(figsize=(10, 4))
+        gs = gridspec.GridSpec(2, 1, height_ratios=[8, 2])
 
-        plt.subplot(1, 3, 2)
-        librosa.display.specshow(Rf, cmap='inferno_r')
-        plt.title('Recurrence matrix')
-
-        ax = plt.subplot(1, 3, 1)
-        librosa.display.specshow(X,
-                                 y_axis='time',
-                                 y_coords=beat_times)
+        ax = plt.subplot(gs[0])
+        librosa.display.specshow(X.transpose(),
+                                 x_axis='time',
+                                 x_coords=beat_times)
+        ax.xaxis.set_major_locator(MultipleLocator(20))
+        ax.xaxis.set_minor_locator(AutoMinorLocator(4))
         plt.title('Structure components')
 
-        ax.yaxis.set_major_locator(MultipleLocator(30))
-        ax.yaxis.set_minor_locator(AutoMinorLocator(6))
-
-        plt.subplot(1, 3, 3)
-        librosa.display.specshow(np.atleast_2d(seg_ids).T, cmap=colors)
+        plt.subplot(gs[1])
+        colors = plt.get_cmap('Paired', k)
+        librosa.display.specshow(np.atleast_2d(seg_ids).T.transpose(), cmap=colors)
         plt.title('Estimated segments')
-        # plt.colorbar(ticks=range(k))
 
         plt.tight_layout()
-        plt.savefig('{track_dir}/laplacian_{k}.png'.format(track_dir=track_dir, k=k))
+        plt.savefig('{track_dir}/laplacian_{k}_structure.png'.format(track_dir=track_dir, k=k))
         plt.close()
 
         return seg_ids, colors
