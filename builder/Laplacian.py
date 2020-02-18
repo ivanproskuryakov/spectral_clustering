@@ -7,7 +7,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 from matplotlib import gridspec
 
 class Laplacian:
-    def build(self, k, A, Rf, beat_times, track_dir: str):
+    def build(self, k, A, beat_times, track_dir: str):
         #####################################################
         # Now let's compute the normalized Laplacian (Eq. 10)
         L = scipy.sparse.csgraph.laplacian(A, normed=True)
@@ -32,8 +32,8 @@ class Laplacian:
         seg_ids = KM.fit_predict(X)
 
         # Detailed results
-        plt.figure(figsize=(10, 4))
-        gs = gridspec.GridSpec(2, 1, height_ratios=[8, 2])
+        plt.figure(figsize=(24, 8))
+        gs = gridspec.GridSpec(2, 1, height_ratios=[8, 1])
 
         ax = plt.subplot(gs[0])
         librosa.display.specshow(X.transpose(),
@@ -49,7 +49,7 @@ class Laplacian:
         plt.title('Estimated segments')
 
         plt.tight_layout()
-        plt.savefig('{track_dir}/laplacian_{k}_structure.png'.format(track_dir=track_dir, k=k))
+        plt.savefig('{track_dir}/laplacian_{k}.png'.format(track_dir=track_dir, k=k))
         plt.close()
 
         return seg_ids, colors

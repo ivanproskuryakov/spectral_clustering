@@ -45,4 +45,4 @@ class Matrix:
 
         A = mu * Rf + (1 - mu) * R_path
 
-        return A, Rf
+        return A
